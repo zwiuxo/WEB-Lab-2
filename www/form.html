@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ такси вариан 16</title>
+    <style>
+        @keyframes open {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 3px solid #ffcc00;
+            border-radius: 10px;
+            background-color: #222;
+            animation: open 1.2s;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffcc00;
+        }
+
+        input, select {
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            background-color: #333;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            width: auto;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #333;
+            color: #ffcc00;
+            border: 1px solid #ffcc00;
+        }
+
+        #result {
+            width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            border: 2px dashed #ffcc00;
+            color: #ffcc00;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="order">
+        <h2>Taxi Order</h2>
+        
+        <input type="text" name="user_name" placeholder="Ваше имя">
+        <input type="number" name="pass_count" placeholder="Кол-во пассажиров">
+
+        <p>Тариф заказа:</p>
+        <select name="type">
+            <option value="economy">Эконом</option>
+            <option value="comfort">Комфорт</option>
+            <option value="vip">Бизнес</option>
+        </select>
+
+        <p><input type="checkbox" name="bag"> Нужен багажник</p>
+
+        <p>Тип авто:</p>
+        <input type="radio" name="car" value="sedan" checked> Седан
+        <input type="radio" name="car" value="van"> Минивэн
+
+        <button type="submit">ЗАКАЗАТЬ</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        let t;
+        function reset() {
+            clearTimeout(t);
+            t = setTimeout(function() {
+                alert("15 секунд без действия");
+            }, 15000);
+        }
+
+        window.onmousemove = reset;
+        window.onkeydown = reset;
+        reset();
+
+        document.getElementById("order").onsubmit = function(e) {
+            e.preventDefault();
+            let d = new FormData(this);
+            let res = "<b>Детали поездки:</b>";
+
+            d.forEach(function(v, k) {
+                let val = v;
+                if (v === 'on') {
+                    val = 'Да';
+                }
+                res = res + "<p>" + k + ": " + val + "</p>";
+            });
+
+            let block = document.getElementById("result");
+            block.innerHTML = res;
+            block.style.display = "block";
+            clearTimeout(t);
+        };
+    </script>
+</body>
+</html>
